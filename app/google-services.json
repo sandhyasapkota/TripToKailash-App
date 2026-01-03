@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "499569054954",
+    "firebase_url": "https://triptokailash-4eb6f-default-rtdb.firebaseio.com",
+    "project_id": "triptokailash-4eb6f",
+    "storage_bucket": "triptokailash-4eb6f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499569054954:android:8b1e523f0777d3134c7393",
+        "android_client_info": {
+          "package_name": "com.example.myfirstapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzhCFF6Q1KBQkQukfbywaf2fypNtlhf8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499569054954:android:8068da7e7827398c4c7393",
+        "android_client_info": {
+          "package_name": "com.example.triptokailash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzhCFF6Q1KBQkQukfbywaf2fypNtlhf8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

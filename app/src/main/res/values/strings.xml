@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">TripToKailash</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_register2">RegisterActivity2</string>
+    <string name="title_activity_forget_password">ForgetPassword</string>
+    <string name="title_activity_reset_password">ResetPassword</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
+    <string name="title_activity_packages">PackagesActivity</string>
+    <string name="title_activity_package">PackageActivity</string>
+    <string name="title_activity_appointment_form">AppointmentFormActivity</string>
+    <string name="title_activity_view_details">ViewDetailsActivity</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_experiences">ExperiencesActivity</string>
+    <string name="title_activity_admin_dashboard">AdminDashboardActivity</string>
+    <string name="title_activity_add_package">AddPackageActivity</string>
+    <string name="title_activity_my_appointment">MyAppointmentActivity</string>
+</resources>
