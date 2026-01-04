@@ -54,15 +54,11 @@ dependencies {
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
-<<<<<<< Updated upstream
-    implementation("io.coil-kt:coil-compose:2.5.0")
-=======
-    implementation(libs.firebase.storage)
+//    implementation(libs.firebase.storage)
     implementation("com.cloudinary:cloudinary-android:2.1.0")
     implementation("io.coil-kt.coil3:coil-compose:3.2.0")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.2.0") // Required for loading network images in Coil 3
 //    implementation("io.coil-kt:coil-compose:2.5.0")
->>>>>>> Stashed changes
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
     implementation("androidx.compose.runtime:runtime-livedata:1.7.0-beta01")
     implementation("androidx.compose.runtime:runtime-livedata:1.7.0-beta01")

@@ -17,4 +17,5 @@
     <string name="title_activity_admin_dashboard">AdminDashboardActivity</string>
     <string name="title_activity_add_package">AddPackageActivity</string>
     <string name="title_activity_my_appointment">MyAppointmentActivity</string>
+    <string name="title_activity_view_all_bookings">ViewAllBookingsActivity</string>
 </resources>
