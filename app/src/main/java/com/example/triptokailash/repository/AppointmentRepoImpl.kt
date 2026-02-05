@@ -65,6 +65,23 @@ class AppointmentRepoImpl : AppointmentRepo {
         })
     }
 
+    override fun getAppointmentById(appointmentId: String, callback: (Boolean, String, AppointmentModel?) -> Unit) {
+        appointmentRef.child(appointmentId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val appointmentModel = snapshot.getValue(AppointmentModel::class.java)
+                    callback(true, "Appointment fetched", appointmentModel)
+                } else {
+                    callback(false, "Appointment not found", null)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                callback(false, error.message, null)
+            }
+        })
+    }
+
     override fun cancelAppointment(appointmentId: String, callback: (Boolean, String) -> Unit) {
         appointmentRef.child(appointmentId).child("status").setValue("Cancelled").addOnCompleteListener { task ->
             if (task.isSuccessful) {

@@ -9,15 +9,22 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -27,11 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.triptokailash.R
-import com.example.triptokailash.ui.theme.TripToKailashTheme
-import com.example.triptokailash.view.ExperiencesActivity
-import com.example.triptokailash.view.MyAppointmentsActivity
-import com.example.triptokailash.view.PackageActivity
-import com.example.triptokailash.view.ProfileActivity
+import com.example.triptokailash.ui.theme.*
 
 class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,18 +52,59 @@ class HomeActivity : ComponentActivity() {
 @Composable
 fun HomeScreen() {
     val context = LocalContext.current
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        contentPadding = PaddingValues(bottom = 32.dp)
-    ) {
-        item {
-            HeroSection()
+    
+    Scaffold(
+        bottomBar = {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.surface,
+                tonalElevation = 8.dp
+            ) {
+                NavigationBarItem(
+                    icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
+                    label = { Text("Home") },
+                    selected = true,
+                    onClick = { }
+                )
+                NavigationBarItem(
+                    icon = { Icon(Icons.Outlined.Backpack, contentDescription = "Packages") },
+                    label = { Text("Packages") },
+                    selected = false,
+                    onClick = { context.startActivity(Intent(context, PackageActivity::class.java)) }
+                )
+                NavigationBarItem(
+                    icon = { Icon(Icons.Outlined.EventNote, contentDescription = "My Trips") },
+                    label = { Text("My Trips") },
+                    selected = false,
+                    onClick = { context.startActivity(Intent(context, MyAppointmentsActivity::class.java)) }
+                )
+                NavigationBarItem(
+                    icon = { Icon(Icons.Outlined.Person, contentDescription = "Profile") },
+                    label = { Text("Profile") },
+                    selected = false,
+                    onClick = { context.startActivity(Intent(context, ProfileActivity::class.java)) }
+                )
+            }
         }
-        item {
-            WhyChooseUsSection()
+    ) { paddingValues ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(paddingValues),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            item {
+                HeroSection()
+            }
+            item {
+                QuickActionsSection()
+            }
+            item {
+                WhyChooseUsSection()
+            }
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
     }
 }
@@ -71,60 +115,53 @@ fun HeroSection() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(450.dp)
+            .height(420.dp)
             .paint(
                 painter = painterResource(id = R.drawable.homepage),
                 contentScale = ContentScale.Crop
             )
     ) {
-        // Scrim: A dark gradient overlay for better text readability
+        // Gradient Overlay
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
                     Brush.verticalGradient(
-                        colors = listOf(Color.Black.copy(alpha = 0.3f), Color.Black.copy(alpha = 0.7f)),
+                        colors = listOf(
+                            Color.Black.copy(alpha = 0.2f),
+                            Color.Black.copy(alpha = 0.6f),
+                            Color.Black.copy(alpha = 0.85f)
+                        ),
                         startY = 0f
                     )
                 )
         )
         
-        // Top Navigation Bar
+        // Top Bar with Logo
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .statusBarsPadding()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
+                .padding(horizontal = 20.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "TripToKailash",
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 18.sp,
-                color = Color.White
-            )
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                TextButton(
-                    onClick = { context.startActivity(Intent(context, MyAppointmentsActivity::class.java)) },
-                    contentPadding = PaddingValues(horizontal = 8.dp)
-                ) {
-                    Text("My Trips", color = Color.White, fontSize = 12.sp)
-                }
-                TextButton(
-                    onClick = { context.startActivity(Intent(context, ExperiencesActivity::class.java)) },
-                    contentPadding = PaddingValues(horizontal = 8.dp)
-                ) {
-                    Text("Experiences", color = Color.White, fontSize = 12.sp)
-                }
-                TextButton(
-                    onClick = { context.startActivity(Intent(context, ProfileActivity::class.java)) },
-                    contentPadding = PaddingValues(horizontal = 8.dp)
-                ) {
-                    Text("Profile", color = Color.White, fontSize = 12.sp)
-                }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Logo",
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(Modifier.width(10.dp))
+                Text(
+                    text = "TripToKailash",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.White
+                )
             }
         }
         
@@ -133,7 +170,7 @@ fun HeroSection() {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 48.dp, start = 24.dp, end = 24.dp)
+                .padding(bottom = 32.dp, start = 24.dp, end = 24.dp)
         ) {
             Text(
                 text = "Journey to the\nHoly Mount Kailash",
@@ -141,33 +178,129 @@ fun HeroSection() {
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 textAlign = TextAlign.Center,
-                lineHeight = 38.sp,
+                lineHeight = 40.sp,
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "Discover handcrafted packages for your spiritual pilgrimage.",
+                text = "Embark on a spiritual pilgrimage of a lifetime",
                 fontSize = 15.sp,
                 color = Color.White.copy(alpha = 0.9f),
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(28.dp))
+            
             Button(
                 onClick = { context.startActivity(Intent(context, PackageActivity::class.java)) },
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF5A623)),
-                modifier = Modifier.fillMaxWidth(0.7f)
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = AccentOrange),
+                modifier = Modifier
+                    .fillMaxWidth(0.8f)
+                    .height(56.dp),
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 6.dp,
+                    pressedElevation = 12.dp
+                )
             ) {
-                Text("Explore Packages", fontSize = 16.sp, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
+                Icon(
+                    Icons.Default.Explore,
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    "Explore Packages",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.White
+                )
             }
-            Spacer(modifier = Modifier.height(12.dp))
-            OutlinedButton(
-                onClick = { context.startActivity(Intent(context, ShareExperienceActivity::class.java)) },
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White),
-                modifier = Modifier.fillMaxWidth(0.7f)
+        }
+    }
+}
+
+@Composable
+fun QuickActionsSection() {
+    val context = LocalContext.current
+    
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 24.dp)
+    ) {
+        Text(
+            text = "Quick Actions",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+        
+        Spacer(Modifier.height(16.dp))
+        
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            QuickActionCard(
+                icon = Icons.Outlined.RateReview,
+                title = "Share Experience",
+                color = AccentOrange,
+                modifier = Modifier.weight(1f),
+                onClick = { context.startActivity(Intent(context, ShareExperienceActivity::class.java)) }
+            )
+            QuickActionCard(
+                icon = Icons.Outlined.Groups,
+                title = "View Experiences",
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.weight(1f),
+                onClick = { context.startActivity(Intent(context, ExperiencesActivity::class.java)) }
+            )
+        }
+    }
+}
+
+@Composable
+fun QuickActionCard(
+    icon: ImageVector,
+    title: String,
+    color: Color,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = modifier,
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        onClick = onClick
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(52.dp)
+                    .clip(CircleShape)
+                    .background(color.copy(alpha = 0.15f)),
+                contentAlignment = Alignment.Center
             ) {
-                Text("Share Your Experience", fontSize = 14.sp, modifier = Modifier.padding(vertical = 4.dp))
+                Icon(
+                    icon,
+                    contentDescription = title,
+                    tint = color,
+                    modifier = Modifier.size(28.dp)
+                )
             }
+            Spacer(Modifier.height(12.dp))
+            Text(
+                text = title,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
@@ -177,37 +310,40 @@ fun WhyChooseUsSection() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 16.dp, vertical = 24.dp),
+            .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Why Travel With Us?",
-            fontSize = 24.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.onBackground
         )
+        
         Spacer(modifier = Modifier.height(20.dp))
+        
         Row(
-            modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Max),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Max),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             FeatureCard(
                 painter = painterResource(id = R.drawable.hiking),
                 title = "Expert Guides",
-                description = "Our certified guides have decades of experience leading pilgrims safely.",
+                description = "Certified guides with decades of experience",
                 modifier = Modifier.weight(1f)
             )
             FeatureCard(
                 painter = painterResource(id = R.drawable.healthandsafety),
                 title = "Safety First",
-                description = "We carry satellite phones, medical kits, and oxygen for your well-being.",
+                description = "Medical kits, oxygen & satellite phones",
                 modifier = Modifier.weight(1f)
             )
             FeatureCard(
                 painter = painterResource(id = R.drawable.diamond),
-                title = "Authentic Experience",
-                description = "A culturally rich journey focused on spiritual fulfillment, not just tourism.",
+                title = "Authentic",
+                description = "Culturally rich spiritual experience",
                 modifier = Modifier.weight(1f)
             )
         }
@@ -215,24 +351,43 @@ fun WhyChooseUsSection() {
 }
 
 @Composable
-fun FeatureCard(painter: Painter, title: String, description: String, modifier: Modifier = Modifier) {
+fun FeatureCard(
+    painter: Painter,
+    title: String,
+    description: String,
+    modifier: Modifier = Modifier
+) {
     Card(
         modifier = modifier.fillMaxHeight(),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(10.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            Image(painter = painter, contentDescription = title, modifier = Modifier.size(40.dp))
-            Spacer(modifier = Modifier.height(8.dp))
+            Box(
+                modifier = Modifier
+                    .size(44.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painter,
+                    contentDescription = title,
+                    modifier = Modifier.size(28.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = title,
                 fontWeight = FontWeight.Bold,
-                fontSize = 13.sp,
+                fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.primary,
                 textAlign = TextAlign.Center,
                 lineHeight = 16.sp
@@ -241,7 +396,7 @@ fun FeatureCard(painter: Painter, title: String, description: String, modifier: 
             Text(
                 text = description,
                 textAlign = TextAlign.Center,
-                fontSize = 11.sp,
+                fontSize = 10.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = 14.sp
             )
